@@ -1,5 +1,3 @@
-[![Build Status](https://github.com/Idefix60/HTTPReplay.png?branch=master)](https://github.com/Idefix60/HTTPReplay)
-
 Working version...
 
 # HTTP Replay
@@ -60,12 +58,6 @@ NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:r
 ## License
 
 VCRURLConnection is released under the MIT license
-
-## Contact
-
-Dustin Barker
-
-dustin.barker@gmail.com
 
 ### VCRURLConnection uses the following open source components:
 

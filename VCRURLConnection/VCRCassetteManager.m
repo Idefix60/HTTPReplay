@@ -55,7 +55,7 @@
     VCRCassette *cassette = self.cassette;
     
     NSURL *cassetteUrl = self.currentCassetteURL;
-    NSURL *indexUrl = [cassetteUrl URLByAppendingPathComponent:kCassetteIndexFile];
+    NSURL *indexUrl = [cassetteUrl URLByAppendingPathComponent:kCassetteIndexFile isDirectory:NO];
     
     if (cassette) {
         // do nothing

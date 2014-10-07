@@ -32,14 +32,20 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_HOST_HOME"];
-    NSURL *outputURL = [NSURL fileURLWithPath:outputPath];
-    outputURL = [[outputURL URLByAppendingPathComponent:@"HTTPReplay"] URLByAppendingPathComponent:@"Example-iOS"];
+    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"SIMULATOR_HOST_HOME"];
+    if (!outputPath) {
+        outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_HOST_HOME"];
+    }
     
-    NSError *error = nil;
-    [[NSFileManager defaultManager] createDirectoryAtURL:outputURL withIntermediateDirectories:YES attributes:nil error:&error];
-    
-    [VCR setCassetteURL:[NSURL fileURLWithPath:[outputURL absoluteString]]];
+    if (outputPath) {
+        NSURL *outputURL = [NSURL fileURLWithPath:outputPath];
+        outputURL = [[outputURL URLByAppendingPathComponent:@"HTTPReplay"] URLByAppendingPathComponent:@"Example-iOS"];
+
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtURL:outputURL withIntermediateDirectories:YES attributes:nil error:&error];
+        
+        [VCR setCassetteURL:[NSURL fileURLWithPath:[outputURL absoluteString]]];
+    }
     [VCR start];
     
     VCRCassetteViewController *cassetteViewController = [[VCRCassetteViewController alloc] init];

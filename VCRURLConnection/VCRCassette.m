@@ -45,9 +45,9 @@
     return self;
 }
 
-- (id)initWithJSON:(id)json {
+- (id)initWithJSON:(id)json url:(NSURL *)url {
     NSAssert(json != nil, @"Attempted to intialize VCRCassette with nil JSON");
-    if ((self = [self init])) {
+    if ((self = [self initWithURL:url])) {
         for (id recordingJSON in json) {
             VCRRecording *recording = [[VCRRecording alloc] initWithJSON:recordingJSON];
             NSURL *dataUrl = [self.cassetteURL URLByAppendingPathComponent:recording.asset];
@@ -65,7 +65,7 @@
     self.cassetteURL = url;
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSAssert([error code] == 0, @"Attempted to initialize VCRCassette with invalid JSON");
-    return [self initWithJSON:json];
+    return [self initWithJSON:json url:url];
     
 }
 
@@ -88,7 +88,7 @@
     for (VCRRecording *recording in self.responseDictionary.allValues) {
         [recordings addObject:[recording JSON]];
         
-        NSURL *dataUrl = [self.cassetteURL URLByAppendingPathComponent:recording.asset];
+        NSURL *dataUrl = [self.cassetteURL URLByAppendingPathComponent:recording.asset isDirectory:NO];
         
         NSError *error = nil;
         [recording.data writeToURL:dataUrl options:NSDataWritingAtomic error:&error];
